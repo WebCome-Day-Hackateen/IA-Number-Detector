@@ -9,8 +9,21 @@
 
       socket.emit('picture', {image: true, buffer: buf});
       </script>
-  </head>
-  <body bgcolor="#c8cbd1">
+      <script>
+        function draw() {
+          var canvas = document.getElementById("canvas");
+
+          if (canvas.getContext) {
+          var ctx = canvas.getContext("2d");
+
+          ctx.fillStyle = 'rgb(200, 0, 0)';
+          ctx.fillRect(10, 10, 50, 50);
+          }
+        }
+
+  </script>      
+</head>
+  <body bgcolor="#c8cbd1" onload="draw();">
     <canvas id="canvas" width="480" height="480"></canvas>
     <noscript>
       You need to enable JavaScript to run this app.
