@@ -11,8 +11,17 @@ if(typeof G_vmlCanvasManager != 'undefined') {
   canvas = G_vmlCanvasManager.initElement(canvas);
 }
 ctx = canvas.getContext("2d");
+
+function clearNumber(){
+    clickX.length = 0;
+    clickY.length = 0;
+    clickDrag.length = 0;    
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
 function redraw(){
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+//  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.strokeStyle = "#000000";
   ctx.lineJoin = "round";
   ctx.lineWidth = 6;
@@ -29,12 +38,14 @@ function redraw(){
      ctx.stroke();
   }
 }
+
 function addClick(x, y, dragging)
 {
   clickX.push(x);
   clickY.push(y);
   clickDrag.push(dragging);
 }
+
 $('#canvas').mousemove(function(e){
   if(paint){
     addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
