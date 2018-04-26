@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="/socket.io/socket.io.js"></script>
+    <title>MNIST</title>
+    <script type="application/javascript">
+      var socket = io('/drawer');
+
+      socket.emit('picture', {image: true, buffer: buf});
+      </script>
+  </head>
+  <body bgcolor="#c8cbd1">
+    <canvas id="canvas" width="480" height="480"></canvas>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+  </body>
+</html>
