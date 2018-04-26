@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <meta charset="utf-8">
     <script src="/socket.io/socket.io.js"></script>
     <title>MNIST</title>
@@ -9,24 +10,70 @@
 
       socket.emit('picture', {image: true, buffer: buf});
       </script>
-      <script>
-        function draw() {
-          var canvas = document.getElementById("canvas");
-
-          if (canvas.getContext) {
-          var ctx = canvas.getContext("2d");
-
-          ctx.fillStyle = 'rgb(200, 0, 0)';
-          ctx.fillRect(10, 10, 50, 50);
-          }
-        }
-
-  </script>      
 </head>
-  <body bgcolor="#c8cbd1" onload="draw();">
+  <body bgcolor="#c8cbd1">
     <canvas id="canvas" width="480" height="480"></canvas>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <script>
+      var canvas = document.getElementById("canvas");
+      var clickX = new Array();
+      var clickY = new Array();
+      var clickDrag = new Array();
+      var paint;
+      canvas.setAttribute('width', 480);
+      canvas.setAttribute('height', 480);
+      canvas.setAttribute('id', 'canvas');
+      if(typeof G_vmlCanvasManager != 'undefined') {
+        canvas = G_vmlCanvasManager.initElement(canvas);
+      }
+      ctx = canvas.getContext("2d");
+      function redraw(){
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        ctx.strokeStyle = "#df4b26";
+        ctx.lineJoin = "round";
+        ctx.lineWidth = 5;
+        for(var i=0; i < clickX.length; i++) {
+          ctx.beginPath();
+          if(clickDrag[i] && i){
+            ctx.moveTo(clickX[i-1], clickY[i-1]);
+           }else{
+             ctx.moveTo(clickX[i]-1, clickY[i]);
+           }
+           ctx.lineTo(clickX[i], clickY[i]);
+           ctx.closePath();
+           ctx.stroke();
+        }
+      }
+      function addClick(x, y, dragging)
+      {
+        clickX.push(x);
+      $('#canvas').mousemove(function(e){
+        if(paint){
+          addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+          redraw();
+        }
+      });
+        clickY.push(y);
+        clickDrag.push(dragging);
+      }
+
+      $('#canvas').mousedown(function(e){
+        var mouseX = e.pageX - this.offsetLeft;
+        var mouseY = e.pageY - this.offsetTop;
+
+        paint = true;
+        addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+        redraw();
+      });
+      $('#canvas').mouseup(function(e){
+        paint = false;
+      });
+      $('#canvas').mouseleave(function(e){
+        paint = false;
+      });
+    </script>
   </body>
 </html>
