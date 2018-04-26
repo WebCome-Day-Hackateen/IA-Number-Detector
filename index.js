@@ -2,8 +2,8 @@ const express   = require('express');
 const app       = express();
 const server    = require('http').Server(app);
 const io        = require('socket.io')(server);
-const child     = require('child_process').spawn;
 const fs        = require('fs');
+const child     = require('child_process');
 
 //Get Image
 function writeImage(data)
@@ -15,17 +15,18 @@ function writeImage(data)
 }
 
 //Linking root
-app.use(express.static(__dirname, '/'));
+app.use(express.static(__dirname + '/'));
 
 // Drawer socket where come from picture
 var drawer = io.of('/drawer');
 
 // Socket getter from front
 drawer.on('connection', function (socket) {
+    console.log('socket ' + socket + ' connected.');
     socket.on('picture', function (pic, buff) {
         console.log(pic);
         console.log(buff);
-        writeImage(buff);
+        writeImage("salut");
     });
 });
 
