@@ -12,7 +12,6 @@ drawer.on('connection', function (socket) {
     socket.on('picture', function (pic, buff) {
         console.log(pic);
         console.log(buff);
-        //create_picture(data);
     });
 });
 
