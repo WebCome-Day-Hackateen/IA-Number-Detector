@@ -1,8 +1,21 @@
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
-const child = require('child_process').spawn;
+const express   = require('express');
+const app       = express();
+const server    = require('http').Server(app);
+const io        = require('socket.io')(server);
+const child     = require('child_process').spawn;
+const fs        = require('fs');
+
+//Get Image
+function writeImage(data)
+{
+    fs.writeFile('client.png', data, function (err) {
+        if (err) return console.log(err);
+        console.log('Server written in client.png');
+    });
+}
+
+//Linking root
+app.use(express.static(__dirname, '/'));
 
 // Drawer socket where come from picture
 var drawer = io.of('/drawer');
@@ -12,6 +25,7 @@ drawer.on('connection', function (socket) {
     socket.on('picture', function (pic, buff) {
         console.log(pic);
         console.log(buff);
+        writeImage(buff);
     });
 });
 
