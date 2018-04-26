@@ -2,11 +2,13 @@
 <html>
   <head>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="./send.js" ></script>
     <meta charset="utf-8">
     <title>MNIST</title>
 </head>
 <body bgcolor="#c8cbd1">
-  <canvas id="canvas" width="480" height="480"></canvas>
+  <canvas id="canvas" style="border:1px solid hsl(0, 0%, 0%); padding: 0; margin: auto; display: block;"></canvas>
+  <input type="button" value="Dectecter le nombre" onclick="sendPicture()" style="padding: 10; margin: auto ; margin-top: 10px; display: block;">
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
@@ -17,8 +19,8 @@
     var clickDrag = new Array();
     var paint;
 
-    canvas.setAttribute('width', 480);
-    canvas.setAttribute('height', 480);
+    canvas.setAttribute('width', 280);
+    canvas.setAttribute('height', 280);
     canvas.setAttribute('id', 'canvas');
     if(typeof G_vmlCanvasManager != 'undefined') {
       canvas = G_vmlCanvasManager.initElement(canvas);
@@ -40,7 +42,6 @@
          ctx.lineTo(clickX[i], clickY[i]);
          ctx.closePath();
          ctx.stroke();
-         console.log(i);
       }
     }
     function addClick(x, y, dragging)
@@ -69,6 +70,10 @@
     $('#canvas').mouseleave(function(e){
       paint = false;
     });
+    function sendPicture()
+    {
+      sendFileById(ctx);
+    }
   </script>
 </body>
 </html>
