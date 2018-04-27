@@ -3,16 +3,41 @@
   <head>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="./send.js" ></script>
+    <script src="header.js"></script>
     <meta charset="utf-8">
     <title>MNIST</title>
 </head>
-<body bgcolor="#c8cbd1" onload="clearNumber()">
-  <canvas id="canvas" style="border:1px solid hsl(0, 0%, 0%); padding: 0; margin: auto; display: block;"></canvas>
+<body onload="clearNumber();openTab('Home', this, '#555');">
+  <link rel="stylesheet" type="text/css" href="header.css">
+  <div id="Home" class="tabcontent">
+      <h3>MNIST</h3>
+      <p>Le but de ce site est de reconaitre des chiffres écrit à la main grâce à une intéligence artificielle entrainé avec la base de donnée MNIST</p>
+  </div>
+  <div id="Github" class="tabcontent">
+    <h3>Github</h3>
+    <a href="https://github.com/Afourcat" style="color:#b3b3b3">Github</a>
+  </div>
+  <div id="Mnist" class="tabcontent">
+    <h3>MNIST</h3>
+    <a href="http://yann.lecun.com/exdb/mnist/" style="color:#b3b3b3">base de donnée MNIST</a>
+  </div>
+  <div id="Tensorflow" class="tabcontent">
+    <h3>Tensorflow</h3>
+    <a href="https://www.tensorflow.org/" style="color:#b3b3b3">Tensorflow</a>
+  </div>
+  
+  <button class="tablink" onclick="openTab('Home', this, '#555')" id="defaultOpen">Home</button>
+  <button class="tablink" onclick="openTab('Github', this, '#555')">Github</button>
+  <button class="tablink" onclick="openTab('Mnist', this, '#555')">MNIST</button>
+  <button class="tablink" onclick="openTab('Tensorflow', this, '#555')">Tensorflow</button>
+  
+  <canvas id="canvas" style="border:1px solid hsl(0, 0%, 0%); padding: auto; margin: 90px auto; display: block;"></canvas>
   <input type="button" value="Dectecter le nombre" onclick="sendPicture()" style="padding: 10; margin: auto ; margin-top: 10px; display: block;">
   <input type="button" value="Effacer" onclick="clearNumber()" style="padding: 10; margin: auto ; margin-top: 10px; display: block;">
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
   <script src="./canvas.js"></script>
+
 </body>
 </html>

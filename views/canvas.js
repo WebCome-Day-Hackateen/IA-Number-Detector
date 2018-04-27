@@ -24,7 +24,7 @@ function redraw(){
 //  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.strokeStyle = "#000000";
   ctx.lineJoin = "round";
-  ctx.lineWidth = 6;
+  ctx.lineWidth = 24;
 
   for(var i=0; i < clickX.length; i++) {
     ctx.beginPath();
