@@ -17,6 +17,7 @@ function writeImage(data)
 //Linking root
 app.use(express.static(__dirname + '/'));
 
+app.use(express.static('public'));
 // Drawer socket where come from picture
 var drawer = io.of('/drawer');
 
