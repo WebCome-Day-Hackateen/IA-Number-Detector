@@ -8,6 +8,7 @@ const child     = require('child_process');
 //Get Image
 function writeImage(data)
 {
+    console.log(data);
     fs.writeFile('client.png', data, function (err) {
         if (err) return console.log(err);
         console.log('Server written in client.png');
@@ -24,10 +25,15 @@ var drawer = io.of('/drawer');
 // Socket getter from front
 drawer.on('connection', function (socket) {
     console.log('socket ' + socket + ' connected.');
-    socket.on('picture', function (pic, buff) {
-        console.log(pic);
-        console.log(buff);
-        writeImage("salut");
+    socket.on('picture', function (pic) {
+        //console.log(pic);
+        console.log(pic.buffer);
+	let data = pic.buffer.slice(22);
+	fs.writeFile('client.png', data, 'base64', function (err) {
+            if (err) return console.log(err);
+            console.log('Server written in client.png');
+	});
+        //writeImage(buff);
     });
 });
 
@@ -42,6 +48,6 @@ app.get('/drawer', function (req, res) {
 });
 
 // Listening to port 3000
-app.listen(3000, function () {
+server.listen(3000, function () {
     console.log('Listenning to port ' + 3000 + '.');
 });
