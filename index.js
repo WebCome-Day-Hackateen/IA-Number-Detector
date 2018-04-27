@@ -31,15 +31,21 @@ drawer.on('connection', function (socket) {
         console.log(pic.buffer);
 	let data = pic.buffer.slice(22);
 	fs.writeFile('client.png', data, 'base64', function (err) {
-            if (err) return console.log(err);
+        if (err) return console.log(err);
+
 	    //let dt = resizeImage.resize
-	    jimp.read("client.png", (errr, img) => {
-		if (errr) throw err;
-		img.resize(28, 28)
-		    .quality(100)
-		    .write("small-client.png")
-	    });
-            console.log('Server written in client.png');
+        jimp.read("client.png", function (errr, img) {
+            if (errr) throw console.log(errr);
+            
+            //delete old client
+            fs.unlink('small-client.png', function (err) {
+                if (err) console.log(err);
+            });
+            img.resize(28, 28)
+                .quality(100)
+                .write("small-client.png");
+        });
+        console.log('Server written in client.png');
 	});
         //writeImage(buff);
     });
