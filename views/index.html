@@ -31,10 +31,15 @@
   <button class="tablink" onclick="openTab('Github', this, '#555')">Github</button>
   <button class="tablink" onclick="openTab('Mnist', this, '#555')">MNIST</button>
   <button class="tablink" onclick="openTab('Tensorflow', this, '#555')">Tensorflow</button>
-  
   <canvas id="canvas" style="border:1px solid hsl(0, 0%, 0%); padding: auto; margin: 90px auto; display: block;"></canvas>
-  <input type="button" value="Dectecter le nombre" onclick="sendPicture()" style="padding: 10; margin: auto ; margin-top: 10px; display: block;">
+  <input type="button" value="Dectecter le nombre" onclick="let res = document.getElementById('resulter'); sendPicture()" style="padding: 10; margin: auto ; margin-top: 10px; display: block;">
   <input type="button" value="Effacer" onclick="clearNumber()" style="padding: 10; margin: auto ; margin-top: 10px; display: block;">
+  <br>
+  <div style="height: 150px; width: 100%; text-align: center">
+    <div id="resulter" style="height: 100%; width: 9%; display: inline-block; border-style: solid; font-size: 300%">
+      0
+    </div>
+  </div>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
