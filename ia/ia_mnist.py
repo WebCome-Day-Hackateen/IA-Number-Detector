@@ -16,6 +16,9 @@ def main(f: str):
     """
     save = tf.train.import_meta_graph("mnist.ckpt.meta")
     graph = tf.get_default_graph()
+
+    tf_features = tf.placeholder(tf.float32, [None, 784]);
+    tf_targets = tf.placeholder(tf.float32, [None, 10]);
     
     sess = tf.Session()
     save.restore(sess, "./mnist.ckpt")
@@ -25,7 +28,7 @@ def main(f: str):
     print(pic)
     print(sess.run(feed_dict= {
 	tf_features: pic,
-	tf_targets: []}))
+        tf_targets: 0}))
 
 if __name__ == "__main__":
     f = sys.argv[1]

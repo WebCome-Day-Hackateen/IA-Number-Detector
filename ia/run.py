@@ -5,11 +5,12 @@ from tensorflow.examples.tutorials.mnist import input_data
 import datetime
 from PIL import Image
 import sys
+import numpy as numpy
 
 def get_batch_from_file(path):
-         im = Image.open("../small-client.png")
-         pix = numpy.array(im.getdata()).reshape(-1 , 28, 28, 1)
-         return (pix)
+         im = Image.open("../small-client.png").convert("L")
+         #pix = numpy.array(im.getdata()).reshape(-1 , 28, 28, 1)
+         return (im.getdata())
 
 def main():
     #Dataset
@@ -63,6 +64,7 @@ def main():
 
     #accuracy
     good_pred = tf.equal(tf.argmax(a1, 1), tf.argmax(tf_targets, 1))
+    res = tf.argmax(a1, 1);
     acc = tf.reduce_mean(tf.cast(good_pred, tf.float32))
     train_err_scalar = tf.summary.scalar("Train cost", err)
     train_acc_scalar = tf.summary.scalar("Train accuracy", acc)
@@ -85,29 +87,39 @@ def main():
 
     if sys.argv[1] == "1":
         saver.restore(sess, "./mnist.ckpt")
-	tf.reset_default_graph()
-	sess.run([acc], feed_dict={
-		tf_features: get_batch_from_file("../small-client.png")
-	})
+        tf.reset_default_graph()
+        batches = numpy.reshape(numpy.array(get_batch_from_file("../small-client.png")), (1, 784))
+        batches[batches == 255] = 1;
+        batches[batches == 1] = 2;
+        batches[batches == 0] = 1;
+        batches[batches == 2] = 0;
+        print (batches);
+        c = sess.run([res], feed_dict={
+                 tf_features: batches,
+                 tf_targets: numpy.reshape([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], (1, 10)),
+                 pkeep: 1.
+        })
+        print (c);
     else:
-	for e in range(epoch):
-	    batch_features, batch_target = mnist.train.next_batch(100)
-	    _, d = sess.run([train, train_summary_op], feed_dict={
+         for e in range(epoch):
+            batch_features, batch_target = mnist.train.next_batch(100)
+            print (batch_features[0])
+            _, d = sess.run([train, train_summary_op], feed_dict={
 	        tf_features: batch_features,
 	        tf_targets: batch_target,
 	        pkeep: var
 	    })
-	    writer.add_summary(d, e)
-	    l_rate /= 1.2
-	    if e % 100 == 0:
-	        c, sum = sess.run([acc, test_summary_op], feed_dict={
-	    	tf_features: mnist.test.images,
-	    	tf_targets: mnist.test.labels,
-	    	pkeep: 1.
+            writer.add_summary(d, e)
+            l_rate /= 1.2
+            if e % 100 == 0:
+                c, sum = sess.run([acc, test_summary_op], feed_dict={
+                         tf_features: mnist.test.images,
+                         tf_targets: mnist.test.labels,
+                         pkeep: 1.
 	        })
-	        writer.add_summary(sum, e)
-	        print("Accuracy: ", c)
-	        saver.save(sess, "/tmp/mnist.ckpt")
+                writer.add_summary(sum, e)
+                print("Accuracy: ", c)
+                saver.save(sess, "/tmp/mnist.ckpt")
     # for e in range(epoch):
     #     sess.run(train, feed_dict={
     #         tf_features: mnist.train.images,

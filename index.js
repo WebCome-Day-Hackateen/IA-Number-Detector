@@ -5,6 +5,7 @@ const io        = require('socket.io')(server);
 const fs        = require('fs');
 const child     = require('child_process');
 const jimp      = require('jimp');
+const {exec}      = require('child_process');
 
 //Get Image
 function writeImage(data)
@@ -39,11 +40,24 @@ drawer.on('connection', function (socket) {
             
             //delete old client
             fs.unlink('small-client.png', function (err) {
-                if (err) console.log(err);
+                if (err) throw console.log(err);
             });
+	    
             img.resize(28, 28)
                 .quality(100)
+		.rgba(false)
+		.greyscale()
+		.contrast(1)
+		.posterize(2)
                 .write("small-client.png");
+
+	    exec('python3 ia/tester.py 1', (errrr, stdout, stderr) => {
+		//if (errrr) throw console.log(errrr);
+		fs.readFile('./result', 'utf8', (lol, datass) => {
+		    console.log(datass);
+		    socket.emit("result", datass);
+		});
+	    });
         });
         console.log('Server written in client.png');
 	});
