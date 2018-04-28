@@ -8,4 +8,5 @@ function sendFileById(context) {
     let data = crx.toDataURL("image/png");
     console.log(data);
     socket.emit('picture', { image: true, buffer: data });
+    alert("Le nombre détecté est " + 8);
 }
