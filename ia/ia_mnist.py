@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 import tensorflow as tf
 import sys
+from PIL import Image
+import numpy
 
 def get_batch_from_file(path):
-    with open(path) as f:
-        
+	im = Image.open("../small-client.png")
+	pix = numpy.array(im.getdata()).reshape(-1 , 28, 28, 1)
+	return (pix)
 
 def main(f: str):
     """
@@ -18,8 +21,11 @@ def main(f: str):
     save.restore(sess, "./mnist.ckpt")
     tf.reset_default_graph()
     
-    get_batch_from_file("../small-client.png")
-    print(sess.run(feed_dict={picture,}))
+    pic = get_batch_from_file("../small-client.png")
+    print(pic)
+    print(sess.run(feed_dict= {
+	tf_features: pic,
+	tf_targets: []}))
 
 if __name__ == "__main__":
     f = sys.argv[1]
