@@ -39,9 +39,7 @@ drawer.on('connection', function (socket) {
             if (errr) throw console.log(errr);
             
             //delete old client
-            fs.unlink('small-client.png', function (err) {
-                if (err) throw console.log(err);
-            });
+            fs.unlink('small-client.png', function (err) {});
 	    
             img.resize(28, 28)
                 .quality(100)
